@@ -1,0 +1,43 @@
+backbone: "CLIP-ViT-B/16"
+resolution: 224
+
+output_dir: null
+print_freq: 30
+
+seed: 0
+deterministic: True
+gpu: 0
+num_workers: 8
+prec: "amp"
+
+num_epochs: 25
+batch_size: 128
+micro_batch_size: 128
+lr: 0.01
+weight_decay: 5e-4
+momentum: 0.9
+loss_type: "LA"
+classifier: "CosineClassifier"
+
+
+vpt_deep: True
+
+init_head: "text_feat"
+test_ensemble: True
+expand: 24
+
+TRAINER:
+  COOP:
+    N_CTX: 16  # number of context vectors
+    CSC: False  # class-specific context
+    # CTX_INIT: "X X X X X X X X X X X X X X X X"  # initialization words
+    CTX_INIT: ""
+    PREC: "amp"  # fp16, fp32, amp
+    CLASS_TOKEN_POSITION: "end"  # 'middle' or 'end' or 'front'
+
+INPUT:
+  SIZE: (224, 224)
+  INTERPOLATION: "bicubic"
+  PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
+  PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
+  TRANSFORMS: ["random_resized_crop", "random_flip", "normalize"]
